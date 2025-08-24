@@ -1,55 +1,54 @@
-💻 Tom McDonald (aka bodyrock)
+# 💻 Tom McDonald (aka **bodyrock**)  
+**Solution Architect | Full Stack | Cloud | Databases**
 
-Solution Architect | Full Stack | Cloud | Databases
+---
 
-🚀 About Me
+## 🚀 About Me  
+I’m a Solution Architect with 20+ years of experience designing and delivering scalable systems across **frontend, backend, and cloud**.  
 
-I’m a Solution Architect with 20+ years of experience designing and delivering scalable systems across frontend, backend, and cloud. My expertise spans:
+My expertise spans:  
+- **Frontend**: React, Angular  
+- **Backend**: .NET Core, Node.js  
+- **Cloud**: AWS (Lambda, API Gateway, S3, DynamoDB)  
+- **Databases**: SQL Server, Oracle, MongoDB  
 
-Frontend: React, Angular
+I focus on building secure, high-performing solutions that integrate complex systems and deliver measurable business value.  
 
-Backend: .NET Core, Node.js
+---
 
-Cloud: AWS (Lambda, API Gateway, S3, DynamoDB)
+## 🛠️ Core Skills  
+- **Frontend**: React, Angular, TypeScript, JavaScript  
+- **Backend**: .NET Core, Node.js, RESTful APIs, GraphQL  
+- **Cloud**: AWS Lambda, API Gateway, S3, CI/CD pipelines  
+- **Data**: SQL Server, Oracle, MongoDB, data integration & migration  
+- **Architecture**: Microservices, Event-driven design, Cloud-native solutions  
 
-Databases: SQL Server, Oracle, MongoDB
+---
 
-I focus on building secure, high-performing solutions that integrate complex systems and deliver measurable business value.
+## 📂 Pinned Projects (Case Studies)
 
-🛠️ Core Skills
+### 🔹 **E-Commerce Modernization Platform**  
+*Tech: React, .NET Core, SQL Server, AWS Lambda*  
+- Designed a cloud-native architecture for a retail platform handling 10K+ daily transactions.  
+- Built microservices for order management, integrated with payment providers, and modernized frontend UI with React.  
+- Implemented AWS Lambda functions to scale peak shopping season traffic.  
 
-Frontend: React, Angular, TypeScript, JavaScript
-
-Backend: .NET Core, Node.js, RESTful APIs, GraphQL
-
-Cloud: AWS Lambda, API Gateway, S3, CI/CD pipelines
-
-Data: SQL Server, Oracle, MongoDB, data integration & migration
-
-Architecture: Microservices, Event-driven design, Cloud-native solutions
-
-📂 Pinned Projects (Case Studies)
-🔹 E-Commerce Modernization Platform
-
-Tech: React, .NET Core, SQL Server, AWS Lambda
-
-Designed a cloud-native architecture for a retail platform handling 10K+ daily transactions.
-
-Built microservices for order management, integrated with payment providers, and modernized frontend UI with React.
-
-Implemented AWS Lambda functions to scale peak shopping season traffic.
-
+**How to Run (Demo Setup)**  
+```bash
 # clone sample frontend
 git clone https://github.com/bodyrock/ecommerce-frontend-demo
 cd ecommerce-frontend-demo
-npm install && npm start
+npm install
+npm start
 
 # backend API (dotnet core)
 git clone https://github.com/bodyrock/ecommerce-api-demo
 cd ecommerce-api-demo
 dotnet run
+```
 
-
+### Architecture Diagram
+```mermaid
 flowchart LR
   subgraph Client
     U[User]
@@ -58,36 +57,27 @@ flowchart LR
 
   subgraph AWS
     CF[CloudFront CDN]
-    S3[S3 (static assets)]
-    ALB[ALB / API Gateway]
-    MS1[.NET Order Service]
-    MS2[.NET Catalog Service]
-    MS3[.NET Payment Service]
-    SQL[(SQL Server)]
-    SQS[SQS (async events)]
-    L1[(AWS Lambda: promo calc)]
-    L2[(AWS Lambda: order events)]
-    CW[CloudWatch Logs/Metrics]
+    S3["S3 - static assets"]
+    APIGW[API Gateway]
+    ORD[".NET Order Service"]
+    CAT[".NET Catalog Service"]
+    PAY[".NET Payment Service"]
+    SQL["SQL Server"]
+    SQS[SQS]
+    L1["Lambda - Promo"]
+    L2["Lambda - Order Events"]
   end
 
   U --> CF --> SPA
-  SPA --> ALB
-  ALB --> MS1 --> SQL
-  ALB --> MS2 --> SQL
-  ALB --> MS3 --> SQL
-
-  MS1 -- publish --> SQS --> L2
-  SPA -- promo request --> ALB --> L1
+  SPA --> APIGW
+  APIGW --> ORD --> SQL
+  APIGW --> CAT --> SQL
+  APIGW --> PAY --> SQL
+  ORD -- publish --> SQS --> L2
+  SPA -- promo --> APIGW --> L1
   SPA -- static --> S3
 
-  MS1 --> CW
-  MS2 --> CW
-  MS3 --> CW
-  L1 --> CW
-  L2 --> CW
-
-
-🔹 Data Integration Hub
+```
 
 Tech: Node.js, Oracle, MongoDB, Kafka
 
@@ -97,38 +87,33 @@ Used Kafka for event streaming and ensured high availability with cluster failov
 
 Delivered faster insights to business users with a unified data view.
 
+How to Run (Demo Setup)
+
+```
 # start kafka + zookeeper
 docker-compose up -d zookeeper kafka
 
 # run node.js data sync service
 git clone https://github.com/bodyrock/data-integration-demo
 cd data-integration-demo
-npm install && npm start
-
+npm install
+npm start
+```
+```mermaid
 
 flowchart LR
-  subgraph Source Systems
-    ORA[(Oracle)]
-  end
+  ORA["Oracle"]
+  CDC["CDC / LogMiner"]
+  K["Kafka Cluster"]
+  PROC["Stream Processor (Node.js)"]
+  MONGO["MongoDB"]
+  BI["BI / Analytics"]
 
-  subgraph Stream Layer
-    CDC[CDC / LogMiner]
-    K[(Kafka Cluster)]
-    S1[Stream Processor (Node.js)]
-    S2[Schema Registry]
-  end
+  ORA --> CDC --> K
+  K -->|events| PROC
+  PROC --> MONGO --> BI
 
-  subgraph Targets
-    MONGO[(MongoDB)]
-    BI[[BI/Analytics]]
-  end
-
-  ORA -- change logs --> CDC --> K
-  K -->|events| S1
-  S2 -. schemas .- S1
-  S1 --> MONGO
-  MONGO --> BI
-
+```
 
 🔹 IoT Monitoring Dashboard
 
@@ -140,32 +125,35 @@ Built APIs to aggregate sensor data and visualize it in real-time Angular dashbo
 
 Leveraged AWS serverless stack (API Gateway + Lambda + DynamoDB) for cost-efficient scaling.
 
+How to Run (Demo Setup)
+```
 # spin up local angular app
 git clone https://github.com/bodyrock/iot-dashboard-demo
 cd iot-dashboard-demo
-npm install && ng serve
+npm install
+ng serve
 
 # deploy mock lambda function locally
 sam local invoke "TelemetryHandler" -e events/telemetry.json
-
-
+```
+```mermaid
 sequenceDiagram
   participant Device as IoT Device
-  participant APIGW as API Gateway (REST/WebSocket)
+  participant APIGW as API Gateway
   participant Lambda as AWS Lambda
   participant DB as DynamoDB
   participant Dash as Angular Dashboard
 
   Device->>APIGW: POST /telemetry {sensor data}
-  APIGW->>Lambda: Invoke (ingest)
+  APIGW->>Lambda: Invoke
   Lambda->>DB: PutItem(sensor data)
   Lambda-->>APIGW: 200 OK
 
-  Dash->>APIGW: Connect (WebSocket) / Subscribe
-  DB-->>Lambda: DynamoDB Stream (on new data)
-  Lambda->>APIGW: Push update (ws message)
+  Dash->>APIGW: Connect (WebSocket)
+  DB-->>Lambda: DynamoDB Stream
+  Lambda->>APIGW: Push update
   APIGW-->>Dash: Realtime telemetry update
-
+```
 
 📈 Current Focus
 
@@ -182,3 +170,6 @@ Exploring AI-assisted development workflows
 🌍 Website / Portfolio
 
 ✉️ Email
+
+
+
